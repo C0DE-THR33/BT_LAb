@@ -130,31 +130,6 @@ function Start-OptionalAiAssistant {
     }
 }
 
-# Check/build fd-python-base image
-function Test-PythonBaseImage {
-    Log-Info "Checking fd-python-base Docker image..."
-    
-    $imageExists = docker images fd-python-base:latest --format '{{.Repository}}:{{.Tag}}' | Select-String -Pattern 'fd-python-base:latest'
-    
-    if ($imageExists) {
-        Log-Success "fd-python-base image already exists, skipping build"
-    } else {
-        Log-Info "Building fd-python-base image (this may take a few minutes on first run)..."
-        Push-Location $PROJECT_ROOT
-        try {
-            docker build --target python-base -t fd-python-base -f FD_Module_Group9/Dockerfile .
-            if ($LASTEXITCODE -eq 0) {
-                Log-Success "fd-python-base image built successfully"
-            } else {
-                Log-Error "Failed to build fd-python-base image"
-                exit 1
-            }
-        } finally {
-            Pop-Location
-        }
-    }
-}
-
 # Check if frontend dependencies are installed
 function Test-FrontendDeps {
     Log-Info "Checking frontend dependencies..."
@@ -256,10 +231,6 @@ function Main {
     Test-Prerequisites
     
     Log-Info "Starting complete initialization..."
-    Write-Host ""
-    
-    # Check/build fd-python-base image
-    Test-PythonBaseImage
     Write-Host ""
     
     # Start backend services

@@ -135,7 +135,6 @@ Run the complete startup script from the project root:
 
 This script will:
 - Build and start all backend microservices (via init_all_services.sh)
-- Check/build the fd-python-base Docker image
 - Install frontend dependencies if needed
 - Start the Angular frontend development server
 - Wait for all services to be ready

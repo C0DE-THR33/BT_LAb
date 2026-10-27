@@ -129,25 +129,6 @@ start_optional_ai_assistant() {
     fi
 }
 
-# Check/build fd-python-base image
-check_python_base_image() {
-    log_info "Checking fd-python-base Docker image..."
-    
-    if docker images fd-python-base:latest --format '{{.Repository}}:{{.Tag}}' | grep -q 'fd-python-base:latest'; then
-        log_success "fd-python-base image already exists, skipping build"
-    else
-        log_info "Building fd-python-base image (this may take a few minutes on first run)..."
-        cd "$PROJECT_ROOT/FD_Module_Group9"
-        if docker build --target java-python-base -t fd-python-base -f Dockerfile .; then
-            log_success "fd-python-base image built successfully"
-        else
-            log_error "Failed to build fd-python-base image"
-            exit 1
-        fi
-        cd "$PROJECT_ROOT"
-    fi
-}
-
 # Check if frontend dependencies are installed
 check_frontend_deps() {
     log_info "Checking frontend dependencies..."
@@ -236,10 +217,6 @@ main() {
     check_prerequisites
     
     log_info "Starting complete initialization..."
-    echo ""
-    
-    # Check/build fd-python-base image
-    check_python_base_image
     echo ""
     
     # Start backend services
