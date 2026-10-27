@@ -466,8 +466,8 @@ export class AdminPanelComponent implements AfterViewInit, OnInit, OnDestroy {
     this.interestError = '';
     this.apiClient.getInterestAccounts().subscribe({
       next: rows => this.interestAccounts = rows || [],
-      error: error => { this.interestError = error.error?.message || 'Could not load interest accounts.'; this.interestAccounts = []; this.interestLoading = false; },
-      complete: () => this.interestLoading = false
+      error: error => { this.interestError = error.error?.message || 'Could not load interest accounts.'; this.interestAccounts = []; this.interestLoading = false; this.cdr.markForCheck(); },
+      complete: () => { this.interestLoading = false; this.cdr.markForCheck(); }
     });
   }
 
@@ -493,8 +493,8 @@ export class AdminPanelComponent implements AfterViewInit, OnInit, OnDestroy {
         this.notificationLogs = batch.slice(0, this.notificationsPageSize);
         this.notificationsHasMore = batch.length > this.notificationsPageSize;
       },
-      error: error => { this.notificationsError = error.error?.message || 'Could not load notification logs.'; this.notificationLogs = []; this.notificationsHasMore = false; this.notificationsLoading = false; },
-      complete: () => this.notificationsLoading = false
+      error: error => { this.notificationsError = error.error?.message || 'Could not load notification logs.'; this.notificationLogs = []; this.notificationsHasMore = false; this.notificationsLoading = false; this.cdr.markForCheck(); },
+      complete: () => { this.notificationsLoading = false; this.cdr.markForCheck(); }
     });
   }
 
@@ -515,8 +515,8 @@ export class AdminPanelComponent implements AfterViewInit, OnInit, OnDestroy {
     this.statementsError = '';
     this.apiClient.getStatementSummary().subscribe({
       next: summary => this.statementSummary = summary,
-      error: error => { this.statementsError = error.error?.message || 'Could not load statement summary.'; this.statementSummary = null; this.statementsLoading = false; },
-      complete: () => this.statementsLoading = false
+      error: error => { this.statementsError = error.error?.message || 'Could not load statement summary.'; this.statementSummary = null; this.statementsLoading = false; this.cdr.markForCheck(); },
+      complete: () => { this.statementsLoading = false; this.cdr.markForCheck(); }
     });
   }
 
@@ -527,8 +527,8 @@ export class AdminPanelComponent implements AfterViewInit, OnInit, OnDestroy {
     this.statementsError = '';
     this.apiClient.getAccountStatements(account).subscribe({
       next: rows => this.statementRows = rows || [],
-      error: error => { this.statementsError = error.error?.message || 'Could not load statements for this account.'; this.statementRows = []; this.statementsLoading = false; },
-      complete: () => this.statementsLoading = false
+      error: error => { this.statementsError = error.error?.message || 'Could not load statements for this account.'; this.statementRows = []; this.statementsLoading = false; this.cdr.markForCheck(); },
+      complete: () => { this.statementsLoading = false; this.cdr.markForCheck(); }
     });
   }
 
@@ -537,8 +537,8 @@ export class AdminPanelComponent implements AfterViewInit, OnInit, OnDestroy {
     this.contractsError = '';
     this.apiClient.getAllApplications().subscribe({
       next: rows => { this.contracts = rows || []; },
-      error: error => { this.contractsError = error.error?.message || 'Could not load FD contracts.'; this.contracts = []; this.contractsLoading = false; },
-      complete: () => this.contractsLoading = false
+      error: error => { this.contractsError = error.error?.message || 'Could not load FD contracts.'; this.contracts = []; this.contractsLoading = false; this.cdr.markForCheck(); },
+      complete: () => { this.contractsLoading = false; this.cdr.markForCheck(); }
     });
   }
 
